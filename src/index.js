@@ -34,11 +34,11 @@ app.use(session({
 
 app.use(morgan('dev'));
 app.use(conecctionDatabase(mysql, {
-    host: 'localhost',
+    host: '25.92.99.155',
     user: 'root',
-    password: '1905',
+    password: 'hack2020',
     port: 3306,
-    database: 'drogueria',
+    database: 'recenmeddb',
     multipleStatements: true
 }, 'single'));
 
