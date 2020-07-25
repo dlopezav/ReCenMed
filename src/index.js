@@ -10,12 +10,12 @@ const http = require('http');
 const server = http.createServer(app);
 
 //importing routes
-const producto_routes = require('./routes/producto.js');
-const compra_routes = require('./routes/compra.js');
-const venta_routes = require('./routes/venta.js');
-const historial_routes = require('./routes/historial.js');
+// const producto_routes = require('./routes/producto.js');
+// const compra_routes = require('./routes/compra.js');
+// const venta_routes = require('./routes/venta.js');
+// const historial_routes = require('./routes/historial.js');
 const autenticacion_routes = require('./routes/autenticacion.js');
-const usuarios_routes = require('./routes/usuarios.js');
+// const usuarios_routes = require('./routes/usuarios.js');
 
 
 //settings
@@ -43,50 +43,20 @@ app.use(conecctionDatabase(mysql, {
 }, 'single'));
 
 
-var myConnection = function (req, res, next) {
-    req.getConn = function(callback){
-        var connection = mysql.createConnection({
-                            host: 'localhost',
-                            user: 'root',
-                            password: '1905',
-                            port: 3306,
-                            database: 'drogueria',
-                            multipleStatements: true
-                        });
-        callback(null, connection);
-        // return connection;
-    }
-    var end = res.end;
-    res.end = function (data, encoding) {
-        res.end = end;
-        res.end(data, encoding);
-    }
-    next(); 
-}
-app.use(myConnection);
 app.use(express.urlencoded({ 
         extended: false
     }
 ));
 app.use(bodyParser.json());
 
-//Variables Globales
-app.use((req, res, next) =>{
-    app.locals.usuario = req.session.user;
-    next();
-});
 
 //routes
-app.use('/', producto_routes);
-app.use('/', compra_routes);
-app.use('/', venta_routes);
-app.use('/', historial_routes);
+// app.use('/', producto_routes);
+// app.use('/', compra_routes);
+// app.use('/', venta_routes);
+// app.use('/', historial_routes);
 app.use('/', autenticacion_routes);
-app.use('/', usuarios_routes);
-
-//satatic files
-app.use(express.static(path.join(__dirname, 'public')));
-
+// app.use('/', usuarios_routes);
 
 server.listen(app.get('port'), () => {
     console.log('Server on port 3000');

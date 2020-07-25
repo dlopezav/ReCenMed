@@ -1,5 +1,5 @@
 {
-  "name": "DrogueriaSantaClara",
+  "name": "ReCenMed",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
     "start": "node --harmony src index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ricardo Calvo, Diego López, Felipe Duarte, Leonardo Delgado",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
