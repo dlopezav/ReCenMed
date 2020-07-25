@@ -35,7 +35,7 @@ app.use(session({
 app.use(morgan('dev'));
 app.use(conecctionDatabase(mysql, {
     host: '25.92.99.155',
-    user: 'root',
+    user: 'leonardo',
     password: 'hack2020',
     port: 3306,
     database: 'recenmeddb',
@@ -91,4 +91,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 server.listen(app.get('port'), () => {
     console.log('Server on port 3000');
 });
+
 
