@@ -1,0 +1,481 @@
+<%- include('partials/_header') %>
+<div class="container-fluid" style="max-width: 80%; ">
+
+    <div class="row mt-5">
+        <div class="col col-12 col-lg-6">
+            <h1>
+                <button class = "btn btn-warning" style = "font-size: 1em; padding: .5em">Proveedores</button>
+            </h1>  
+            <div class="table-responsive">
+                <table class = "table table-hover col-12">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Teléfono</th>
+                            <th>Empresa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <% if(providers.length > 0) {%>
+                            <% for(var i = 0; i < providers.length; i++){ %>
+                                <% if(providers[i].activo) {%>
+                                    <tr>
+                                        <th>
+                                            <button onclick = "
+                                                getElementById('idEditIdPerProveedor').value = '<%= providers[i].per_id %>';
+                                                getElementById('idEditIdProveedor').value = '<%= providers[i].prov_id %>';
+                                                getElementById('idEditIdProveedor2').value = '<%= providers[i].prov_id %>';
+                                                getElementById('idEditNombreProveedor').value = '<%= providers[i].per_nombre %>';
+                                                getElementById('idEditApellidoProveedor').value = '<%= providers[i].per_apellido %>';
+                                                getElementById('idEditTelefonoProveedor').value = '<%= providers[i].per_telefono %>';
+                                                getElementById('idEditEmpresaProveedor').value = '<%= providers[i].empr_id %>';
+                                                getElementById('idEditEmpresaProveedor').innerHTML = '<%= providers[i].empr_nombre %>';
+                                                var empresaSeleccionada = '<%= providers[i].empr_nombre %>';
+                                            "
+                                            class = "btn btn-info" data-toggle="collapse" data-target="#collapseEditProveedor" aria-expanded="true" aria-controls="collapseEditProveedor">Editar</button>
+                                        </th>
+                                        <th><%= providers[i].per_nombre %></th>
+                                        <th><%= providers[i].per_apellido %></th>
+                                        <th><%= providers[i].per_telefono %></th>
+                                        <th><%= providers[i].empr_nombre %></th>
+                                    </tr>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                        <tr>
+                            <th colspan = "5"><button class="btn btn-info" style = "font-size: 1.2em;" data-toggle="collapse" data-target="#collapseCreateProveedor" aria-expanded="true" aria-controls="collapseCreateProveedor">+Agregar</button></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="collapse" id = "collapseEditProveedor">
+                <div class="card-body">
+                    <form action="/editProv" method = "post">
+                        <input required type="hidden" name = "per_id" id = "idEditIdPerProveedor">
+                        <input required type="hidden" name = "prov_id" id = "idEditIdProveedor">
+                        <input required type="text" id = "idEditNombreProveedor" class="form-control" name = "per_nombre" placeholder = "Nombre">
+                        <input required type="text" id = "idEditApellidoProveedor" class="form-control my-3" name = "per_apellido" placeholder = "Apellido">
+                        <input required type="text" id = "idEditTelefonoProveedor" class="form-control my-3" name = "per_telefono" placeholder = "Telefono">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label for="selectEmpresa" class = "input-group-text">Empresa</label>
+                            </div>
+                            <select name = "empr_nombre" id = "selectEmpresa" class = "custom-select" required>
+                                    <option selected id = "idEditEmpresaProveedor"></option>
+                                <% for(var i = 0; i < enterprise.length; i++) {%>
+                                    <!-- <%#if(emprSelec == enterprise[i].empr_nombre) continue %> -->
+                                    <option value="<%= enterprise[i].empr_id %> "> <%= enterprise[i].empr_nombre %>  </option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <button class = "btn btn-primary my-3" style = "font-size: 1em;">Modificar!</button>
+                    </form>
+
+                    <form action="/deleteProv" method = "post">
+                        <input type="hidden" name = "prov_id" id = "idEditIdProveedor2">
+                        <button class = "btn btn-danger" style = "font-size: 1em"> Eliminar!</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="collapse" id = "collapseCreateProveedor">
+                <div class="card-body">
+                    <form action="/crearProv" method="post">
+                        <input required type="text" class="form-control" name = "per_nombre" placeholder = "Nombre">
+                        <input required type="text" class="form-control my-3" name = "per_apellido" placeholder = "Apellido">
+                        <input required type="text" class="form-control my-3" name = "per_telefono" placeholder = "Telefono">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label for="selectEmpresa" class = "input-group-text">Empresa</label>
+                            </div>
+                            <select name = "empr_nombre" id = "selectEmpresa" class = "custom-select">
+                                <option value="null" disabled selected>Seleccione...</option>
+                                <% for(var i = 0; i < enterprise.length; i++) {%>
+                                    <!-- <%#if(emprSelec == enterprise[i].empr_nombre) continue %> -->
+                                    <option value="<%= enterprise[i].empr_id %> "> <%= enterprise[i].empr_nombre %>  </option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <button class = "btn btn-primary" style = "font-size: .8em;">Ingresar!</button>
+                    </form>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <div class="col col-12 col-lg-6">
+            <h1>
+                <button class = "btn btn-warning" style = "font-size: 1em; padding: .5em">+ Nueva Compra</button>
+            </h1> 
+            <!-- <div class="collapse"> -->
+                <form action="/comprar" method = "post" class="form-group row" onsubmit="sessionStorage.clear(); location.reload();">
+                    <div class="col col-1"></div>
+                    <div class="card-body col col-10">
+                        <div class="input-group my-3">
+                            <lavel class="input-group-text">Proveedor</lavel>
+                            <select name="proveedor" id="seleccionProveedor" class = "custom-select" required onchange="
+                                sessionStorage.setItem('prov_compra', this.value);
+                            ">
+                                <option value="">Seleccione..</option>
+                                <% if(providers.length > 0) {%>
+                                    <% for(var i = 0; i < providers.length; i++){ %>
+                                        <% if(providers[i].activo) {%>
+                                            <option value ="<%= providers[i].prov_id%>"><%= providers[i].per_nombre %></option>
+                                        <% } %>
+                                    <% } %>
+                                <% } %>
+                            </select>
+                        </div>
+                        <label class = "input-group-text"> Productos </label>
+                        
+                        <div style = "max-height: 500px; overflow: auto;">
+                            <table class="table table-hover" id = "idTableCarrito">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <script>
+                                        if(sessionStorage.prov_compra){
+                                            var select = document.getElementById('seleccionProveedor');
+                                            for(var j = 0; j <select.length; j++){
+                                                if(select[j].value == sessionStorage.prov_compra){
+                                                    document.getElementById('seleccionProveedor').selectedIndex = j;
+                                                    break;
+                                                }
+                                            }
+                                        }                                        
+
+                                        var recupera = JSON.parse(sessionStorage.ids);
+                                        // alert("gonorreaaa");
+                                        var table = document.getElementById('idTableCarrito');
+                                        var total = 0;
+                                        for(var j = 0; j < recupera.productosEnCarrito.length; j++){
+                                            var row = table.insertRow(table.rows.length);    
+                                            var currProducto = recupera.productosEnCarrito[j];
+                                            total = total + currProducto.cantidad*currProducto.precio;
+
+                                            // alert(sessionStorage.ids);
+                                            var cell1 = row.insertCell(0);
+                                            var myButton = document.createElement('button');
+                                            myButton.setAttribute('class', 'btn btn-danger');
+                                            myButton.setAttribute('type', 'button');
+                                            myButton.setAttribute('value', currProducto.id);
+                                            // myButton.setAttribute('onclick', myDeleteFunction());
+                                            // myButton.setAttribute('onclick',' var tableee = document.getElementById(\'idTableCarrito\');                                            for(var k = 1, row; row = tableee.rows[k]; k++){                   if(row.cells[1].children[0].name == \'nombre_pro_\'+currProducto.id) {tableee.deleteRow(k); sessionStorage.ids.productosEnCarrito.splice(k, 1); break;}} location.reload()');
+                                            // alert(j);
+                                            myButton.setAttribute('onclick', ' var recupera = JSON.parse(sessionStorage.ids);                                             for(var j = 0; j < recupera.productosEnCarrito.length; j++){   ;                                              if(this.value == recupera.productosEnCarrito[j].id){                                                     recupera.productosEnCarrito.splice(j, 1);                                                      sessionStorage.setItem(\'ids\', JSON.stringify(recupera)); ;                                                     location.reload();                                                      break;                                                      }                                             }                                               ');
+                                            myButton.innerHTML = '- Eliminar';
+                                            cell1.appendChild(myButton);
+        
+                                            /********************************/
+                                            var cell2 = row.insertCell(1);
+                                            var myInputId = document.createElement('input');
+                                            myInputId.setAttribute('type', 'hidden');
+                                            myInputId.setAttribute('name', 'nombre_pro_'+currProducto.id);
+                                            myInputId.setAttribute('value', currProducto.id);
+                                            var labelMyInputId = document.createElement('label');   
+                                            labelMyInputId.setAttribute('id', 'idLableMyInputId');
+                                            myInputId.setAttribute('onchange', 'getElementById(\'idLableMyInputId\').innerHTML = this.value');
+                                            labelMyInputId.innerHTML = currProducto.nombre;
+                                            cell2.appendChild(myInputId);
+                                            cell2.appendChild(labelMyInputId);
+        
+        
+                                            /********************************/
+                                            var cell3 = row.insertCell(2);                                    
+                                            var labelMyInputPrice = document.createElement('label');   
+                                            labelMyInputPrice.setAttribute('id', 'idLableMyInputPrice');
+                                            labelMyInputPrice.innerHTML = nf.format(currProducto.precio);
+                                            cell3.appendChild(labelMyInputPrice);
+                                            
+                                            /********************************/
+                                            var cell4 = row.insertCell(3);
+                                            var myInputCantidad = document.createElement('input');
+                                            myInputCantidad.setAttribute('type', 'number');
+                                            myInputCantidad.setAttribute('name', 'cantidad_pro_'+currProducto.id);
+                                            myInputCantidad.setAttribute('id', 'cantidad_pro_'+currProducto.id);
+                                            myInputCantidad.setAttribute('value', currProducto.cantidad);
+                                            myInputCantidad.setAttribute('soyDelProducto', currProducto.id);
+                                            myInputCantidad.setAttribute('min', '1');
+                                            myInputCantidad.setAttribute('onchange', 'var idx = this.id.slice(13, ); var escogido = 0; var recover = JSON.parse(sessionStorage.ids);                                            for(var j = 0; j < recover.productosEnCarrito.length; j++){                                                                               if(recover.productosEnCarrito[j].id == idx){                                          escogido = j;           recover.productosEnCarrito[j].cantidad = this.value;                                                    sessionStorage.setItem(\'ids\', JSON.stringify(recover));                                                    break;                                               } }                      document.getElementById(\'idLableMyTotal_\'+idx).innerHTML = \'$\' + this.value * recover.productosEnCarrito[escogido].precio; location.reload();');
+                                            cell4.appendChild(myInputCantidad);
+                                            
+                                            /********************************/
+                                            var cell5 = row.insertCell(4);                                    
+                                            var labelMyTotal = document.createElement('label');   
+                                            labelMyTotal.setAttribute('id', 'idLableMyTotal_'+currProducto.id);
+                                            labelMyTotal.innerHTML = nf.format(currProducto.precio*currProducto.cantidad);
+                                            cell5.appendChild(labelMyTotal);
+                                        }
+                                        
+                                        var row = table.insertRow(table.rows.length);
+                                        var cell1 = row.insertCell(0);
+                                        cell1.id = "yiyiyiyiy";
+                                        document.getElementById("yiyiyiyiy").colSpan = '5';
+                                        document.getElementById("yiyiyiyiy").style = 'text-align: center';
+                                        cell1.innerHTML = 'Valor Total de la compra: ' + nf.format(total);
+
+                                        // document.getElementById('totalCarrito').innerHTML = 'jijijijij';
+                                    </script>
+                                    <!-- <tr>
+                                        <td colspan = "5" style = "text-align: right;">Total de la compra: <label id = "totalCarrito"></label></td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                    
+                        
+                        <!-- <button style = "font-size: 1.2em;" class = "btn btn-success mt-1" type = "button" data-toggle="collapse" data-target="#collapseAddProducto" aria-expanded="true" aria-controls="collapseAddProducto" selected>+ Añadir Prducto</button> -->
+                        <button style = "font-size: 1.2em;" class = "btn btn-success mt-1" type = "button" onclick=" document.getElementById('collapseAddProducto').classList.remove('d-none');">+ Añadir Prducto</button>
+                    </div>
+                    <button style = "font-size: 1.2em;" class = "my-5 btn btn-danger" type = "submit">Terminar Compra</button>
+                </form>
+            <!-- </div> -->
+        </div>
+    </div>
+
+    <div class="row d-none" id = "collapseAddProducto">
+        <div class="col col-12 col-lg-8">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Nombre</th>
+                        <th>Presentacion</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(data.length > 0){ %>
+                        <script>
+                            // alert(/*Object.values(JSON.parse(*/sessionStorage.pro_temp_1/*))*/);
+                            // sessionStorage.removeItem('ids');
+                            // console.log('eooooo');
+                            document.getElementById('collapseAddProducto').classList.remove('d-none');
+                        </script>
+                        <% for(var i = 0; i < data.length; i++) { %>
+                            <tr>
+                                <td><button onclick = "
+                                    //Recuperar información perdida
+                                    var table = document.getElementById('idTableCarrito');
+                                    var repetido = false;
+                                    for(var j = 1, row; row = table.rows[j]; j++){                          
+                                        if(row.cells.length > 1 && row.cells[1].children.length > 0 && row.cells[1].children[0].name == 'nombre_pro_<%= data[i].pro_id %>') repetido = true; 
+                                    }
+                                    
+                                    if(repetido == false){
+
+                                        // var row = table.insertRow(table.rows.length);
+    
+    
+                                        // var cell1 = row.insertCell(0);
+                                        // var myButton = document.createElement('button');
+                                        // myButton.setAttribute('class', 'btn btn-danger');
+                                        // myButton.setAttribute('type', 'button');
+                                        // // myButton.setAttribute('onclick', myDeleteFunction());
+                                        // myButton.setAttribute('onclick',' var tableee = document.getElementById(\'idTableCarrito\');                                            for(var j = 1, row; row = tableee.rows[j]; j++){                   if(row.cells[1].children[0].name == \'nombre_pro_<%= data[i].pro_id %>\') {tableee.deleteRow(j); break;}}');
+                                        // myButton.innerHTML = '- Eliminar';
+                                        // cell1.appendChild(myButton);
+    
+                                        // /********************************/
+                                        // var cell2 = row.insertCell(1);
+                                        // var myInputId = document.createElement('input');
+                                        // myInputId.setAttribute('type', 'hidden');
+                                        // myInputId.setAttribute('name', 'nombre_pro_<%= data[i].pro_id %>');
+                                        // myInputId.setAttribute('value', '<%= data[i].pro_id %>');
+                                        // var labelMyInputId = document.createElement('label');   
+                                        // labelMyInputId.setAttribute('id', 'idLableMyInputId');
+                                        // myInputId.setAttribute('onchange', 'getElementById(\'idLableMyInputId\').innerHTML = this.value');
+                                        // labelMyInputId.innerHTML = '<%= data[i].pro_nombre %>';
+                                        // cell2.appendChild(myInputId);
+                                        // cell2.appendChild(labelMyInputId);
+    
+    
+                                        // /********************************/
+                                        // var cell3 = row.insertCell(2);                                    
+                                        // var labelMyInputPrice = document.createElement('label');   
+                                        // labelMyInputPrice.setAttribute('id', 'idLableMyInputPrice');
+                                        // labelMyInputPrice.innerHTML = '$<%= data[i].pro_precio_compra %>';
+                                        // cell3.appendChild(labelMyInputPrice);
+                                        
+                                        // /********************************/
+                                        // var cell4 = row.insertCell(3);
+                                        // var myInputCantidad = document.createElement('input');
+                                        // myInputCantidad.setAttribute('type', 'number');
+                                        // myInputCantidad.setAttribute('name', 'cantidad_pro_<%= data[i].pro_id%>');
+                                        // myInputCantidad.setAttribute('id', 'cantidad_pro_<%= data[i].pro_id%>');
+                                        // myInputCantidad.setAttribute('value', '1');
+                                        // myInputCantidad.setAttribute('min', '1');
+                                        // myInputCantidad.setAttribute('onchange', 'var idx = <%= data[i].pro_id %>; var recover = JSON.parse(sessionStorage.ids); for(var j = 0; j < recover.productosEnCarrito.length; j++){if(recover.productosEnCarrito[j].id == idx){recover.productosEnCarrito[j].cantidad = this.value; sessionStorage.setItem(\'ids\', JSON.stringify(recover)); break;}} document.getElementById(\'idLableMyTotal_<%=data[i].pro_id%>\').innerHTML = \'$\' + this.value * <%= data[i].pro_precio_compra %>;');
+                                        // cell4.appendChild(myInputCantidad);
+                                        
+                                        // /********************************/
+                                        // var cell5 = row.insertCell(4);                                    
+                                        // var labelMyTotal = document.createElement('label');   
+                                        // labelMyTotal.setAttribute('id', 'idLableMyTotal_<%=data[i].pro_id%>');
+                                        // labelMyTotal.innerHTML = '$<%= data[i].pro_precio_compra %>';
+                                        // cell5.appendChild(labelMyTotal);
+
+                                        // /********************************/
+                                        
+                                        // // alert(sessionStorage.getItem('pro_temp_<%= data[i].pro_id %>'));
+                                        // // sessionStorage.removeItem('ids');
+                                        // sessionStorage.setItem('pro_temp_<%= data[i].pro_id %>', JSON.stringify(miProductTemp));
+                                        var cantidad = 1;
+                                        if(sessionStorage.ids){
+                                            var ids = JSON.parse(sessionStorage.getItem('ids'));
+                                            // alert(ids);
+                                            // alert(ids.productosEnCarrito.length);
+                                        }
+                                        else{
+                                            var ids = {'productosEnCarrito':[] }
+                                        }
+
+                                        var miProductTemp = {'id': '<%=data[i].pro_id%>', 'nombre': '<%=data[i].pro_nombre%>', 'cantidad': cantidad, 'precio': '<%=data[i].pro_precio_compra%>'};
+                                        ids.productosEnCarrito.push(miProductTemp);
+                                        sessionStorage.setItem('ids', JSON.stringify(ids));
+                                    }    
+                                    else alert('ese elemento ya está en la compra');
+                                    // alert('eeeey')
+                                    location.reload();
+                                    // var cantidad = document.getElementById('cantidad_pro_<%=data[i].pro_id%>');
+                                    
+                                    // alert(ids);
+                                    
+                                    // alert(sessionStorage.ids);
+                                    // alert(sessionStorage.ids);
+                                    //alert(Object.values(recover));
+                                    
+                                    // JSONObject eyy = new JSONObject( sessionStorage.getItem('pro_temp_<%= data[i].pro_id %>'));
+                                    // alert(eyy);
+
+
+                                    // document.cookie = 'pro_temp_<%= data[i].pro_id%>_id = <%= data[i].pro_id%>, pro_temp_<%= data[i].pro_id%>_nombre = <%= data[i].pro_nombre%>, pro_temp_<%= data[i].pro_id%>_cantidad = 1, pro_temp_<%= data[i].pro_id%>_precio = <%= data[i].pro_precio_compra%>';
+
+                                    // document.cookie = 'pro_temp_<%= data[i].pro_id%>_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT';
+                                    // document.cookie = 'pro_temp_<%= data[i].pro_id%>_nombre= ; expires = Thu, 01 Jan 1970 00:00:00 GMT';
+                                    // document.cookie = 'pro_temp_<%= data[i].pro_id%>_cantidad= ; expires = Thu, 01 Jan 1970 00:00:00 GMT';
+
+                                    // alert(sessionStorage.getItem('pro_temp_<%= data[i].pro_id %>'));
+                                    // alert(sessionStorage.getItem('pro_temp_<%= data[i].pro_id %>'));
+                                    // var misProductosTempsId = sessionStorage.ids;
+                                    // alert(misProductosTempsId);
+                                    // alert(sessionStorage.getItem('ids'));
+                                    "class="btn btn-success">añadir</button></td>
+                                <td><%= data[i].pro_nombre%></td>
+                                <td><%= data[i].pro_presentacion%></td>
+                                <td id = "precio_compra_<%= data[i].pro_id %>">
+                                    <script>
+                                        var x = document.getElementById('precio_compra_<%= data[i].pro_id %>');
+                                        x.textContent = nf.format('<%= data[i].pro_precio_compra%>');
+                                    </script>
+
+                                </td>
+                                <td><%= data[i].pro_cantidad%></td>
+                            </tr>
+                        <% } %>
+                    <% } else { %>
+                        <% if(buscando) {%>
+                        <script>
+                                alert('No hay productos que mostrar')
+                                </script>
+                        <%}%>
+                        <tr>
+                            <td colspan = "5" style = "text-align: center;">
+                                <h3>Use el buscador porfavor</h3>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-12 col-lg-4">
+
+            <div class="card bg-info">
+                <button class="btn btn-info" type="button" style = "padding: 1.5em" data-toggle="collapse" data-target="#collapseFormulario" aria-expanded="true" aria-controls="collapseFormulario">
+                    <h2>Buscar Producto</h2>
+                </button>
+            
+                <div class="card-body">
+                    <form action="/searchInCompra" method="post" id = "prodFormSearch">
+                        <div class="form-group">
+                            <input type="text" class = "form-control" name = "pro_nombre" placeholder="Incluye el nombre">
+                        </div>       
+                        <div class="form-group">
+                            <div class="input-group-prepend">                                        
+                                <label for = "precio_min" class = "input-group-text">
+                                    Precio mínimo
+                                </label>
+                                <input type="number" step = "500" value = "0" min = "0" max = "100000" class = "form-control" name = "precio_min">
+                            </div> 
+                        </div>          
+                        <div class="form-group">
+                            <div class="input-group-prepend">                                        
+                                <label for = "precio_max" class = "input-group-text">
+                                    Precio máximo
+                                </label>
+                                <input type="number" step = "500" value = "100000"  min = "0" max = "100000" class = "form-control" name = "precio_max">
+                            </div> 
+                        </div>     
+                        <div class="input-group mt-3">
+                            <div class="input-group-prepend">
+                                <label for="pro_categoria" class = "input-group-text">Categoría</label>                         
+                            </div>
+                            <select name="pro_categoria" class = "custom-select">
+                                <option value="null" selected>Cualquiera...</option>
+                                <option value="Medicamento">Medicamento</option>
+                                <option value="Populares">Populares</option>
+                                <option value="Hospitalarios">Hospitalarios</option>
+                                <option value="Droga blanca">Droga blanca</option>
+                                <option value="Naturista">Naturista</option>
+                                <option value="Antigripales">Antigripales</option>
+                            </select>   
+                            <!-- <input type="text" class = "form-control" name = "pro_categoria" placeholder="Categoria" > -->
+                        </div>
+                        <!-- <div class="from-group mt-2">
+                            <input type="text" class = "form-control" name = "pro_cantidad" placeholder="Cantidad" >
+                        </div> -->
+                        <!-- <div class="form-group"> -->
+                        <div class="input-group my-3">  
+                            <div class="input-group-prepend">                                        
+                                <label for = "pro_prescripcion" class = "input-group-text">
+                                    ¿con prescripción?
+                                </label>
+                            </div> 
+                            <select name="pro_prescripcion" class = "custom-select">
+                                <option value="null" selected>No importa...</option>
+                                <option value="0">Sin prescripción</option>
+                                <option value="1">Con prescripción</option>
+                            </select>
+                        </div> 
+                        <!-- </div> -->
+                        <button class="btn btn-primary mt-4" type = "button" onclick="document.getElementById('prodFormSearch').submit(); ">Buscar</button>
+                    </form>
+                    
+                </div>
+            </div>
+            
+            <!-- </div>      -->
+        </div>
+        
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<% include ('partials/_footer') %>
