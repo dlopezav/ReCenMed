@@ -10,7 +10,10 @@ class App extends Component {
     return (
       <div className="App container" >
         <Navigation />
+  
         <Preferencias />
+
+        <button class="btn btn-info mt-2" type="button" data-toggle="collapse" data-target="#panel" aria-expanded="false" aria-controls="panel" id="Buscar">Buscar Recomendación</button>
       </div>
     );
   }
