@@ -1,8 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+
 .App {
   text-align: center;
+  font-family: 'Lato', sans-serif;
+  
 }
 .App #nav{
   color: black;
   border-radius: 20px 20px;
   height: 70px;
+  background-color: white;
+}
+
+.App #title{
+  text-decoration: none;
+  margin-top: 0px;
+  padding: 0px;
+  font-size: 30px;
+}
+.App #panel{
+  margin-top: 20px;
+  padding: 10px 5px;
+  background-color: white;
+  border-radius: 20px 20px;
+}
+
+.App #inputs input{
+  margin-top: 12px;
+  border-radius: 15px 15px;
+  font-family: 'Lato', sans-serif;
 }
