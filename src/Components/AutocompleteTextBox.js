@@ -31,7 +31,6 @@ class AutocompleteTextBox extends Component{
     }
 
     onSelectOption(e){
-        const value = e.text;
         this.setState(() =>({
                 value: e,
                 suggestions: [],

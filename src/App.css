@@ -31,7 +31,7 @@
   font-size: 1.2em;
 }
 
-.App #inputs input{
+.App input{
   margin-top: 12px;
   border-radius: 15px 15px;
   font-family: 'Lato', sans-serif;
@@ -67,4 +67,8 @@
 
 .App select{
   border-radius: 15px 15px;
+}
+
+.App .card{
+  padding: 20px;
 }

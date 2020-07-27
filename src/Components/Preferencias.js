@@ -47,7 +47,12 @@ class Preferencias extends Component{
                         </div>
 
                         <div className="form-group col-md-8 offset-md-2 col-10 offset-1" id="inputs"> 
-                            <AutocompleteTextBox />
+                          <AutocompleteTextBox />
+                          {/* <div className="form-group col-md-8 offset-md-2 col-10 offset-1">  */}
+                          {/* <input type="text" calssName="form-control form-control-xs" placeholder="dirección"/> */}
+                          <input className = "form-control form-control-xs" type="text" placeholder="Direccion"></input>
+
+                          {/* </div> */}
                         </div>
                         <div className="form-group col-md-4 offset-md-4 col-10 offset-1">
                             <button type="submit" className="btn btn-sm btn-primary btn-block">Aceptar</button>

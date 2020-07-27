@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
-import Navigation from './Components/Navigation'
-import Preferencias from './Components/Preferencias'
+import Navigation from './Components/Navigation';
+import Preferencias from './Components/Preferencias';
+import Login from './Components/Login'
 import 'bootswatch/dist/litera/bootstrap.min.css';
 
 class App extends Component {
@@ -9,11 +10,12 @@ class App extends Component {
   render(){
     return (
       <div className="App container" >
+        <Login />
         <Navigation />
   
         <Preferencias />
 
-        <button class="btn btn-info mt-2" type="button" data-toggle="collapse" data-target="#panel" aria-expanded="false" aria-controls="panel" id="Buscar">Buscar Recomendación</button>
+        <button className="btn btn-info mt-2" type="button" data-toggle="collapse" data-target="#panel" aria-expanded="false" aria-controls="panel" id="Buscar">Buscar Recomendación</button>
       </div>
     );
   }
