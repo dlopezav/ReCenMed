@@ -7,10 +7,15 @@ import 'bootswatch/dist/litera/bootstrap.min.css';
 
 class App extends Component {
   state = {}
+
+  datosInicio = (user, latitud, longitud) =>{
+
+  }
+
   render(){
     return (
       <div className="App container" >
-        <Login />
+        <Login datosInicio = {this.datosInicio}/>
         <Navigation />
   
         <Preferencias />
