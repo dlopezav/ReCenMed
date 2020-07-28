@@ -103,6 +103,10 @@ class Login extends Component {
       )
     }
   }
+  handleSubmit(event) {
+    alert('A name was submitted: ');
+    event.preventDefault();
+  }
   render() {
     if (this.state.stateForm.login) {
       return (
@@ -113,7 +117,7 @@ class Login extends Component {
             </div>
             <div className="card-body">
 
-              <div className="form">
+            <form onClick={() => {this.verifyRegister(); } } method = "POST" action = "/reg">
                 <div className="row">
 
                   <div className="form-group col-12 col-md-8 offset-md-2">
@@ -123,9 +127,10 @@ class Login extends Component {
                     <input name = "password" type="password" className="form-control form-xs" placeholder="Contraseña" />
                     <button type="button" className="btn btn-link" onClick={this.onNeedRecover}>¿Olvidaste tu contraseña?</button>
                   </div>
-                  <button type="button" className="btn btn-success col-md-4 offset-md-4" onClick={() => {this.verifyRegister(); } }>Ingresar</button>
+                  {/* <input type = "submit" /> */}
+                  <button className="btn btn-success col-md-4 offset-md-4">Ingresar</button>
                 </div>
-              </div>
+              </form >
             </div>
             <button type="button" className="btn btn-link" onClick={this.onNeedRegister}>¿No estás registrado? Regístrate aquí</button>
 

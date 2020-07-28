@@ -7,19 +7,29 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "body-parser": "^1.19.0",
     "bootswatch": "^4.5.0",
     "esri-loader": "^2.15.0",
+    "express": "^4.17.1",
+    "express-myconnection": "^1.0.4",
     "google-map-react": "^1.1.7",
+    "leaflet": "^1.6.0",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "path": "^0.12.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-engine": "^4.5.1",
+    "react-leaflet": "^2.7.0",
     "react-scripts": "3.4.1",
     "react-start": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start-client": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start": "npm run build  && (cd Server && npm run start)"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
