@@ -1,0 +1,1 @@
+npm i -D @babel/core @babel/plugin-proposal-class-properties @babel/plugin-syntax-dynamic-import @babel/preset-env @babel/preset-react babel-loader concurrently css-loader file-loader nodemon sass-loader style-loader webpack webpack-cli webpack-dev-server
