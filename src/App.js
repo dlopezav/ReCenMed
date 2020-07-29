@@ -31,20 +31,16 @@ class App extends Component {
       });
   }
   render(){
-    var hospitals = this.state.hospitals.map((hospital, i) => {
-      return <li key={i}>{hospital.hos_name}</li>
-    });
+    var hospitals = this.state.hospitals;
     return (
       <div className="App container" >
-        <ul>
-          {hospitals}
-        </ul>
         <Navigation />
 
         <Preferencias />
         <button className="btn btn-info mt-2" type="button" data-toggle="collapse" data-target="#panel" aria-expanded="false" aria-controls="panel" id="Buscar">Buscar Recomendación</button>
         <div className="card mx-auto mt-2">
-          <Mapa />
+          <Mapa 
+          markers = {hospitals}/>
         </div>
       </div>
     );
