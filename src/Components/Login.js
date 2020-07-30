@@ -1,6 +1,25 @@
 import React, { Component } from 'react';
 
-const validate = values => {
+const validateLogin = values => {
+  // console.log(values)
+  const errors = {}
+  // if (!values.name) {
+  //   errors.name = "Este campo es obligatorio"
+  // }
+  if (!values.email) {
+    errors.email = "Este campo es obligatorio"
+  }
+  else if (values.email.indexOf('@') == -1 || values.email.indexOf('.') == -1) {
+    errors.email = "No es una dirección válida"
+  }
+  if (!values.password) {
+    errors.password = "Este campo es obligatorio"
+  }
+  return errors
+}
+
+const validateRegister = values => {
+
   const errors = {}
   if (!values.name) {
     errors.name = "Este campo es obligatorio"
@@ -8,7 +27,7 @@ const validate = values => {
   if (!values.email) {
     errors.email = "Este campo es obligatorio"
   }
-  else if (values.email.indexOf('@') == -1 || values.email.indexOf('.') - values.email.indexOf('@') < 2) {
+  else if (values.email.indexOf('@') == -1 || values.email.indexOf('.') == -1) {
     errors.email = "No es una dirección válida"
   }
   if (!values.password) {
@@ -22,12 +41,42 @@ const validate = values => {
       errors.confpassword = "Las contraseñas no coinciden"
     }
   }
-
-  if(!values.code){
-    errors.code = "Ingrese el código de seguridad"
+  // if(!values.code){
+  //   errors.code = "Ingrese el código de seguridad"
+  // }
+  if(!values.address){
+    errors.address = "Este campo es obligatorio"
   }
   return errors
-}
+} 
+
+const validateRecover = values => {
+  if (!values.email) {
+    errors.email = "Este campo es obligatorio"
+  }
+  else if (values.email.indexOf('@') == -1 || values.email.indexOf('.') == -1) {
+    errors.email = "No es una dirección válida"
+  }
+  if(!values.code){
+    errors.code = "Ingrese el código de seguridad"
+  }  
+  return errors
+} 
+
+const validateNewPass = values => {
+  if (!values.password) {
+    errors.password = "Este campo es obligatorio"
+  }
+  else {
+    if (!values.confpassword) {
+      errors.confpassword = "Este campo es obligatorio"
+    }
+    else if (values.password != values.confpassword) {
+      errors.confpassword = "Las contraseñas no coinciden"
+    }
+  } 
+  return errors
+} 
 
 class Login extends Component {
   constructor(props) {
@@ -45,20 +94,21 @@ class Login extends Component {
   }
   
 
-  enterApp = () => {
-    this.props.datosInicio(this.state.name)
-  }
+  // enterApp = () => {
+  //   this.props.datosInicio(this.state.name)
+  // }
   handleChange = ({ target }) => {
     const { name, value } = target
     this.setState({ [name]: value })
   }
-  verifyRegister(){
-    const { errors, stateForm, ...formData } = this.state
-    const result = validate(formData)
-    this.setState({ errors: result })
-    console.log(Object.keys(result))
-    return result;
-  }
+  // verifyRegister(){
+  //   const { errors, stateForm, ...formData } = this.state
+  //   const result = this.validateLogin(formData)
+  //   this.setState({ errors: result })
+  //   console.log(Object.keys(result))}
+
+  //   return result;
+  // }
   onNeedRegister = () => {
     this.setState(() => ({
         stateForm: {
@@ -87,7 +137,7 @@ class Login extends Component {
   onChangePassword = () => {
     // console.log(this.verifyRegister())
     // errors = {}
-    if(this.verifyRegister().code){
+    if(this.validateLogin()){
       console.log(this.verifyRegister())
     }
     else{
@@ -107,6 +157,21 @@ class Login extends Component {
     alert('A name was submitted: ');
     event.preventDefault();
   }
+
+  obtenerDatos = (e) => {
+    e.preventDefault();
+    const { errors, stateForm, ...formData } = this.state
+
+    const result = validateLogin(formData)
+    this.setState({ errors: result })
+    if(Object.keys(result).length == 0){
+      this.props.datosInicio(this.state.email, this.state.password);
+    }
+    else{
+      alert("hay un error")
+      console.log(result)
+    }
+  }
   render() {
     if (this.state.stateForm.login) {
       return (
@@ -117,18 +182,18 @@ class Login extends Component {
             </div>
             <div className="card-body">
 
-            <form onClick={() => {this.verifyRegister(); } } method = "POST" action = "/reg">
+            <form onSubmit={this.obtenerDatos}>
                 <div className="row">
 
                   <div className="form-group col-12 col-md-8 offset-md-2">
                     {this.state.errors.email && <a className="advertencia"> {this.state.errors.email}    </a>}
-                    <input name = "email" type="text" className="form-control form-xs" placeholder="Correo Electrónico" />
+                    <input onChange={this.handleChange} name = "email" type="text" className="form-control form-xs" placeholder="Correo Electrónico" />
                     {this.state.errors.password && <a className="advertencia"> {this.state.errors.password}    </a>}
-                    <input name = "password" type="password" className="form-control form-xs" placeholder="Contraseña" />
+                    <input onChange={this.handleChange} name = "password" type="password" className="form-control form-xs" placeholder="Contraseña" />
                     <button type="button" className="btn btn-link" onClick={this.onNeedRecover}>¿Olvidaste tu contraseña?</button>
                   </div>
                   {/* <input type = "submit" /> */}
-                  <button className="btn btn-success col-md-4 offset-md-4">Ingresar</button>
+                  <button type = "submit" className="btn btn-success col-md-4 offset-md-4">Ingresar</button>
                 </div>
               </form >
             </div>

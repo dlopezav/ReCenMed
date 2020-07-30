@@ -12,12 +12,29 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      hospitals: []
+      hospitals: [],
+      inRegistro: false,
+      hospital_id: null,
     }
   }
 
-  datosInicio = (user, latitud, longitud) =>{
-
+  Val = (respuesta) => {
+    if(respuesta.confirm){
+      this.setState({hospital_id: respuesta.hos_id})
+    }
+  }
+  datosInicio = (email, password) =>{
+    const myObj = {
+      "email": email, "password": password
+    }
+    // console.log(myObj)
+    fetch("/confirmLogin", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(myObj)
+    }).then(res => function(res){
+      if()
+    });
   }
   componentWillMount() {
     request
@@ -34,14 +51,16 @@ class App extends Component {
     var hospitals = this.state.hospitals;
     return (
       <div className="App container" >
-        <Navigation />
+        <Login datosInicio = {this.datosInicio}/>
+
+        {/* <Navigation />
 
         <Preferencias />
         <button className="btn btn-info mt-2" type="button" data-toggle="collapse" data-target="#panel" aria-expanded="false" aria-controls="panel" id="Buscar">Buscar Recomendación</button>
         <div className="card mx-auto mt-2">
           <Mapa 
           markers = {hospitals}/>
-        </div>
+         </div> */}
       </div>
     );
   }

@@ -65,7 +65,7 @@ app.get('/getUsers', (req, res) => {
 
 app.get('/getHospitals', (req, res) => {
   req.getConnection((err, conn) => {
-    conn.query('select * from hospitals', (err, rows) => {
+    conn.query('select hos_name, hos_address, hos_lat, hos_lng, hos_email, hos_date from hospitals', (err, rows) => {
       if(err){
         console.log(err.json())
       }
@@ -76,6 +76,27 @@ app.get('/getHospitals', (req, res) => {
   });
 });
 
+
+app.post('/confirmLogin', (req, res) => {
+  req.getConnection((err, conn) => {
+    conn.query('select * from hospitals where hos_email like ?',[req.body.email], (err, rows) => {
+      if(err){
+        console.log(err.json())
+      }
+      else{
+        myHospital = rows[0]
+        if(rows[0].hos_password == req.body.password){
+          myHospital.confirm = true;
+        }
+        else{
+          myHospital.confirm = false;
+        }
+        console.log(myHospital)
+        res.send(myHospital)
+      }
+    })
+  });
+});
 
 app.use(express.static(__dirname + "/public"));
 
