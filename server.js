@@ -91,13 +91,38 @@ app.post('/confirmLogin', (req, res) => {
         else{
           myHospital.confirm = false;
         }
-        console.log(myHospital)
+        // console.log(myHospital)
         res.send(myHospital)
       }
     })
   });
 });
 
+app.post('/getUnities', (req, res) => {
+  req.getConnection((err, conn) => {
+    conn.query('select * from unities where uni_hos_id = ?',[req.body.id], (err, rows) => {
+      if(err){
+        console.log(err.json());
+      }
+      else{
+        res.send(rows);
+      }
+    })
+  }); 
+});
+
+app.post('/getSpecialities', (req, res) => {
+  req.getConnection((err, conn) => {
+    conn.query('select * from specialities where spc_hos_id = ?',[req.body.id], (err, rows) => {
+      if(err){
+        console.log(err.json());
+      }
+      else{
+        res.send(rows);
+      }
+    })
+  });
+});
 app.use(express.static(__dirname + "/public"));
 
 app.listen(3000, () => {

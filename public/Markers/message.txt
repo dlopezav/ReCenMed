@@ -26,6 +26,7 @@ class Mapa extends Component{
                     position ={[marker.hos_lat,marker.hos_lng]}
                     icon = {iconHospital}
                     >
+                    
                       <Popup>
                         {marker.hos_name +'\n Dirección: '+ marker.hos_address}
                       </Popup>
@@ -58,16 +59,13 @@ class Mapa extends Component{
   render(){
         return (
           <div className="App">
-              <Map center={[this.state.lat, this.state.lng]} zoom='15'>
+              <Map center={[this.state.lat, this.state.lng]} zoom='15' >
                 <TileLayer
                   attribution='&amp;copy <a href="http://osm.org/copyright%22%3EOpenStreetMap</a> contributors'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <Marker
-                  position ={[this.state.lat, this.state.lng]}
-                  icon = {iconPerson}
-                  key = "casa"
-                  >
+                  position ={[this.state.lat, this.state.lng]} icon = {iconPerson}>
                     <Popup>
                       Tu ksa
                     </Popup>
