@@ -69,7 +69,7 @@ class Mapa extends Component{
                   key = "casa"
                   >
                     <Popup>
-                      Tu ksa
+                      {this.state.descripcion}
                     </Popup>
                 </Marker>
                 {this.mostrarMarkers()}

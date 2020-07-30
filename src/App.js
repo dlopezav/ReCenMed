@@ -21,6 +21,7 @@ class App extends Component {
   }
   recibirSpe = (respuesta) => {
       if(respuesta){
+        console.log(respuesta);
         this.setState({
           specialities: respuesta
         });
@@ -28,6 +29,7 @@ class App extends Component {
   }
   recibirUti = (respuesta) => {
     if(respuesta){
+      console.log(respuesta);
       this.setState({
         unities: respuesta
       });
@@ -103,10 +105,11 @@ class App extends Component {
 
         {/* <Preferencias />
         <button className="btn btn-info mt-2" type="button" data-toggle="collapse" data-target="#panel" aria-expanded="false" aria-controls="panel" id="Buscar">Buscar Recomendación</button>
+        */}
         <div className="card mx-auto mt-2">
           <Mapa 
           markers = {hospitals}/>
-         </div>  */}
+         </div>  
       </div>
     );
   }

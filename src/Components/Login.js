@@ -188,7 +188,6 @@ class Login extends Component {
 
 
   renderSpecialities = () => {
-    console.log(this.props.specialities);
     if (this.props.specialities.length === 0) return null;
     return (
       this.props.specialities.map((spe, id) => (
@@ -231,7 +230,7 @@ class Login extends Component {
                 <div className="row">
                   <div className="input-group">
                     <div className="col-10">
-                      <select name="selectEspecialidad" id="selectEspecialidad" className="offset-md-2 form-control col-12 col-md-8"
+                      <select name="selectEspecialidad" id="selectEspecialidad" className="offset-md-2 form-control col-12 col-md-8 mt-2"
                       onChange={this.handleChange}
                       >
                         <option disabled selected>Especialidad a modificar...</option>
@@ -239,10 +238,7 @@ class Login extends Component {
                           this.renderSpecialities()
                         }
                       </select>
-
-
-
-                      <select name="selectUnidad" id="selectUnidad" className="offset-md-2 form-control col-12 col-md-8">
+                      <select name="selectUnidad" id="selectUnidad" className="offset-md-2 form-control col-12 col-md-8 mt-2">
                         <option disabled selected>Unidad a modificar...</option>
                         {
                           this.renderUnities()
