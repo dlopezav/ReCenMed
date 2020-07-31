@@ -46,7 +46,7 @@ class AutocompleteTextBox extends Component {
     }
     return (
       <ul>
-        {suggestions.map((sug) => <li onClick={() => this.onSelectOption(sug)}><a>{sug}</a></li>)}
+        {suggestions.map((sug,id) => <li key ={id} onClick={() => this.onSelectOption(sug)}><a key={id}> {sug}</a></li>)}
       </ul>
     );
   }
