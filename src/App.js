@@ -36,8 +36,6 @@ class App extends Component {
     }
   }
   Val = (respuesta) => {
-
-    
     if (respuesta.confirm) {
       fetch("/getUnities", {
         method: "POST",
@@ -61,6 +59,8 @@ class App extends Component {
         inRegistro: true,
         hospital: respuesta,
       });
+    }else{
+      alert("Hay un error!");
     }
   }
   datosInicio = (email, password) => {
@@ -78,6 +78,27 @@ class App extends Component {
 
 
   }
+
+  datosRegistro = (name, email, password) => {
+    /*const myObj = {
+      "name": name,
+      "email": email,
+      "password": password
+    }
+    // console.log(myObj)
+    fetch("/confirmRegister", {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(myObj)
+    }).then(res => res.json())
+      .catch(error => console.error('Error:', error))
+      .then(response => this.Val(response));
+
+*/
+  }
+
+
+
   componentWillMount() {
     request
       .get('http://localhost:3000/getHospitals')

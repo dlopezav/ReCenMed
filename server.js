@@ -98,6 +98,28 @@ app.post('/confirmLogin', (req, res) => {
   });
 });
 
+
+app.post('/confirmRegister', (req, res) => {
+  /*req.getConnection((err, conn) => {
+    conn.query('select * from hospitals where hos_email like ?',[req.body.email], (err, rows) => {
+      if(err){
+        console.log(err.json())
+      }
+      else{
+        myHospital = rows[0]
+        if(rows[0].hos_password == req.body.password){
+          myHospital.confirm = true;
+        }
+        else{
+          myHospital.confirm = false;
+        }
+        // console.log(myHospital)
+        res.send(myHospital)
+      }
+    })
+  });*/
+});
+
 app.post('/getUnities', (req, res) => {
   req.getConnection((err, conn) => {
     conn.query('select * from unities where uni_hos_id = ?',[req.body.id], (err, rows) => {

@@ -4,10 +4,10 @@ function capitalize(word) {
 
   return word[0].toUpperCase() + word.slice(1);
 }
+
 function dividirCadena(cadenaADividir, separador) {
   var arrayDeCadenas = cadenaADividir.split(separador);
-
-  return arrayDeCadenas[1];
+  return capitalize(arrayDeCadenas[0]) + " " + arrayDeCadenas[1];
 
 }
 const validateLogin = values => {
@@ -29,7 +29,6 @@ const validateLogin = values => {
 }
 
 const validateRegister = values => {
-
   const errors = {}
   if (!values.name) {
     errors.name = "Este campo es obligatorio"
@@ -101,9 +100,30 @@ class Login extends Component {
         newPassword: false,
       },
       errors: {},
-    }
+    };
+    this.specialitiesRef = React.createRef();
+    this.unitiesRef = React.createRef();
+    this.valueSpecialities = React.createRef();
+    this.valueTotal = React.createRef();
+    this.valueAssigned = React.createRef();
   }
 
+  onChangeSpeciality = () => {
+    this.props.specialities.forEach(element => {
+      if(element.spc_name == this.specialitiesRef.current.value){
+        this.valueSpecialities.current.value = element.spc_doctor;
+      }
+    });
+  }
+
+  onChangeUnity = () => {
+    this.props.unities.forEach(element =>{
+      if(element.uni_name == this.unitiesRef.current.value){
+        this.valueTotal.current.value = element.uni_capacity_total;
+        this.valueAssigned.current.value = element.uni_capacity_assigned;
+      }
+    });
+  }
 
   // enterApp = () => {
   //   this.props.datosInicio(this.state.name)
@@ -180,6 +200,21 @@ class Login extends Component {
       this.props.datosInicio(this.state.email, this.state.password);
     }
     else {
+      alert("hay un error");
+      console.log(result);
+    }
+  }
+
+  obtenerRegistro = (e) => {
+    e.preventDefault();
+    const { errors, stateForm, ...formData } = this.state
+
+    const result = validateRegister(formData)
+    this.setState({ errors: result })
+    if (Object.keys(result).length == 0) {
+      //this.props.datosRegistro(this.state.email, this.state.password);
+    }
+    else {
       alert("hay un error")
       console.log(result)
     }
@@ -207,7 +242,7 @@ class Login extends Component {
         <option
           key={id}
           value={uni.uni_name}>
-          {capitalize(dividirCadena(uni.uni_name, "_"))}
+          {/*capitalize(*/dividirCadena(uni.uni_name, "_")}
         </option>
       ))
     );
@@ -219,7 +254,7 @@ class Login extends Component {
         <div className="row mt-2">
           <div className="card col-12 col-md-8 offset-md-2">
             <div className="card-head">
-              <h1>Actualizar información del centro médico.</h1>
+              <h1>Actualizar información del centro médico.</h1> <br></br>
               <strong>Nombre:</strong> {this.props.hospital.hos_name}<br></br>
               <strong>Dirección:</strong> {this.props.hospital.hos_address}<br></br>
               <strong>Correo:</strong> {this.props.hospital.hos_email}
@@ -229,28 +264,28 @@ class Login extends Component {
               <form onSubmit={this.obtenerDatos}>
                 <div className="row">
                   <div className="input-group">
-                    <div className="col-10">
-                      <select name="selectEspecialidad" id="selectEspecialidad" className="offset-md-2 form-control col-12 col-md-8 mt-2"
-                      onChange={this.handleChange}
-                      >
+                    <div className="col-7">
+                      <select ref={this.specialitiesRef} onChange={this.onChangeSpeciality} name="selectEspecialidad" id="selectEspecialidad" className="offset-md-1 form-control col-8 col-md-8 mt-2">
                         <option disabled selected>Especialidad a modificar...</option>
                         {
                           this.renderSpecialities()
                         }
                       </select>
-                      <select name="selectUnidad" id="selectUnidad" className="offset-md-2 form-control col-12 col-md-8 mt-2">
+                      <select ref={this.unitiesRef} onChange={this.onChangeUnity} name="selectUnidad" id="selectUnidad" className="offset-md-1 form-control col-8 col-md-8 mt-2">
                         <option disabled selected>Unidad a modificar...</option>
                         {
                           this.renderUnities()
                         }
                       </select>
                     </div>
-                    <div className="col-2">
-                      <input type="number" name="#" className="form-control form-xs" placeholder="# de especialistas" />
+                    <div className="col-4">
+                      <input ref={this.valueSpecialities} type="number" name="#" className="form-control" placeholder="# de especialistas" />
+                      <input ref={this.valueTotal} type="number" name="#" className="form-control" placeholder="# de capacidad total"/>
+                      <input ref={this.valueAssigned} type="number" name="#" className="form-control" placeholder="# de capacidad asignada"/>
                     </div>
                     {/* <input type = "submit" /> */}
-                  </div>
-                  <button type="submit" className="btn btn-success col-md-4 offset-md-4">Actualizar</button>
+                  </div> 
+                  <button type="submit" className="btn btn-success col-md-4 offset-md-4 mt-4">Actualizar</button>
                 </div>
               </form >
             </div>
@@ -299,7 +334,7 @@ class Login extends Component {
               </div>
               <div className="card-body">
 
-                <div className="form" onSubmit={() => { this.verifyRegister(); }}>
+                <form onSubmit={this.obtenerRegistro}>
                   <div className="row">
 
                     <div className="form-group col-12 col-md-8 offset-md-2">
@@ -312,9 +347,9 @@ class Login extends Component {
                       {this.state.errors.confpassword && <a className="advertencia"> {this.state.errors.confpassword}    </a>}
                       <input onChange={this.handleChange} name="confpassword" type="password" className="form-control form-xs" placeholder="Verificar Contraseña" />
                     </div>
-                    <button type="submit" className="btn btn-success col-md-4 offset-md-4" onClick={() => { this.verifyRegister(); }}>Regístrame</button>
+                    <button type="submit" className="btn btn-success col-md-4 offset-md-4">Regístrame</button>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>
