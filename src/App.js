@@ -16,8 +16,18 @@ class App extends Component {
       inRegistro: false,
       hospital: null,
       specialities: [],
-      unities: []
+      unities: [],
+      latitud: null,
+      longitud: null
     }
+  }
+
+
+  getLocation = (lat, long) => {
+    this.setState({
+      latitud:  lat,
+      longitud:  long,
+    })
   }
   recibirSpe = (respuesta) => {
       if(respuesta){
@@ -108,6 +118,7 @@ class App extends Component {
         */}
         <div className="card mx-auto mt-2">
           <Mapa 
+          getLocation = {this.getLocation}
           markers = {hospitals}/>
          </div>  
       </div>

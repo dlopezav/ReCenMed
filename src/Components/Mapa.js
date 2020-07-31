@@ -41,6 +41,7 @@ class Mapa extends Component{
       navigator.geolocation.getCurrentPosition(
           (position) => {
               const { latitude, longitude } = position.coords;
+              this.props.getLocation(latitude, longitude)
               this.setState({
                   lat: latitude,
                   lng: longitude,

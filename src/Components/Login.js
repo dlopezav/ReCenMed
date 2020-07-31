@@ -277,7 +277,7 @@ class Login extends Component {
                       <input onChange={this.handleChange} name="email" type="text" className="form-control form-xs" placeholder="Correo Electrónico" />
                       {this.state.errors.password && <a className="advertencia"> {this.state.errors.password}    </a>}
                       <input onChange={this.handleChange} name="password" type="password" className="form-control form-xs" placeholder="Contraseña" />
-                      <button type="button" className="btn btn-link" onClick={this.onNeedRecover}>¿Olvidaste tu contraseña?</button>
+                      <button type="button" className="btn btn-link" onClick={this.onNeedRecover}>¿Olvidaste tu contraseña?</button>                      
                     </div>
                     {/* <input type = "submit" /> */}
                     <button type="submit" className="btn btn-success col-md-4 offset-md-4">Ingresar</button>
@@ -311,6 +311,8 @@ class Login extends Component {
                       <input onChange={this.handleChange} name="password" type="password" className="form-control form-xs" placeholder="Contraseña" />
                       {this.state.errors.confpassword && <a className="advertencia"> {this.state.errors.confpassword}    </a>}
                       <input onChange={this.handleChange} name="confpassword" type="password" className="form-control form-xs" placeholder="Verificar Contraseña" />
+                      {this.state.errors.address && <a className="advertencia"> {this.state.errors.address}    </a>}
+                      <input onChange={this.handleChange} name="address" type="password" className="form-control form-xs" placeholder="Dirección" />
                     </div>
                     <button type="submit" className="btn btn-success col-md-4 offset-md-4" onClick={() => { this.verifyRegister(); }}>Regístrame</button>
                   </div>
