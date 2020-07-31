@@ -169,7 +169,7 @@ class App extends Component {
 
   componentWillMount() {
     request
-      .get('http://localhost:3000/getHospitals')
+      .get('localhost:3000/getHospitals')
       .end((err, res) => {
         console.log(JSON.parse(res.text));
         const hospitals = JSON.parse(res.text);
