@@ -100,6 +100,7 @@ class Login extends Component {
         newPassword: false,
       },
       errors: {},
+      addEspecialidad: false
     };
     this.specialitiesRef = React.createRef();
     this.unitiesRef = React.createRef();
@@ -220,9 +221,33 @@ class Login extends Component {
     }
   }
 
-  obtenerDatosActualizar = (e) =>{
+  obtenerDatosActualizar = (e) => {
     e.preventDefault();
-    this.props.datosActualizar(this.specialitiesRef.current.value, this.unitiesRef.current.value, this.valueSpecialities.current.value, this.valueTotal.current.value, this.valueAssigned.current.value)
+    let b = false
+    for (var i = 0; i < this.props.specialities.length; i = i + 1) {
+      if (capitalize(this.props.specialities[i].spc_name) == this.state.addEspecialidad) {
+        b = true;
+      }
+    }
+    if (!b) {
+      
+      if(this.state.addEspecialidad){
+      const spe = [
+        this.props.hospital.hos_id,
+        this.state.addEspecialidad,
+        0
+      ]
+      this.props.datosActualizar(this.specialitiesRef.current.value, this.unitiesRef.current.value, this.valueSpecialities.current.value, this.valueTotal.current.value, this.valueAssigned.current.value, [spe])
+      this.setState({
+        addEspecialidad: false
+      })
+      }else{
+        this.props.datosActualizar(this.specialitiesRef.current.value, this.unitiesRef.current.value, this.valueSpecialities.current.value, this.valueTotal.current.value, this.valueAssigned.current.value, null)
+      }
+    } else {
+      alert("Ya existe esa especialidad")
+    }
+
   }
 
 
@@ -252,17 +277,55 @@ class Login extends Component {
       ))
     );
   }
+  changeSpe = () => {
+    if(this.state.addEspecialidad){
+      this.setState({
+        addEspecialidad: false
+      })
+    }else{
+      this.setState({
+        addEspecialidad: true
+      })
+    }
+  }
+  selectSpe = () => {
+    const spe = ['Alergología', 'Anestesiología', 'Cardiología', 'Gastroenterología',
+       'Endocrinología', 'Geriatría', 'Hepatología', 'Hematología',
+       'Infectología', 'Medicina del deporte', 'Medicina del trabajo',
+       'Medicina intensiva', 'Medicina interna', 'Nefrología', 'Neumología',
+       'Neurología', 'Oncología médica', 'Pediatría', 'Psiquiatría',
+       'Reumatología', 'Toxicología', 'Covid']
+    if(this.state.addEspecialidad){
+      return(
+        <select onChange = {this.handleChange} name="addEspecialidad" id="addEspecialidad" className="offset-md-2 form-control col-8 col-md-8 mt-2">
+          <option disabled selected>Especialidad a añadir...</option>{
+          spe.map((sp, id) => (
+            <option
+              key={id}
+              value={sp}>
+              {sp}
+            </option>
+          ))}
+        </select>
+      )
+    }else{
+      return(null)
+    }
+  }
+
+
 
   render() {
     if (this.props.inRegistro) {
       return (
-        <div className="row mt-2">
+        <div className="row mt-4">
           <div className="card col-12 col-md-8 offset-md-2">
             <div className="card-head">
               <h1>Actualizar información del centro médico.</h1> <br></br>
               <strong>Nombre:</strong> {this.props.hospital.hos_name}<br></br>
               <strong>Dirección:</strong> {this.props.hospital.hos_address}<br></br>
-              <strong>Correo:</strong> {this.props.hospital.hos_email}
+              <strong>Correo:</strong> {this.props.hospital.hos_email}<br></br>
+              <a href="#mapibiris" className="btn btn-danger mx-auto">Ver mapa</a>
             </div>
             <div className="card-body">
 
@@ -289,16 +352,21 @@ class Login extends Component {
                     </select>
                     </div>
                     <div className="offset-2 col-4">
-                      
-                      <input ref={this.valueTotal} type="number" name="#" className="form-control" placeholder="Capacidad total"/>
+                      <label className ="mt-3">Capacidad total:</label>
+                      <input className="inputslog" ref={this.valueTotal} type="number" name="#" className="form-control"/>
                     </div>
                     <div className="col-4">
-
-                      <input ref={this.valueAssigned} type="number" name="#" className="form-control" placeholder="Capacidad asignada"/>
+                    <label className ="mt-3">Capacidad asignada:</label>
+                      <input className="inputslog" ref={this.valueAssigned} type="number" name="#" className="form-control"/>
                     </div>
                     {/* <input type = "submit" /> */}
                   {/* </div>  */}
-                  <button type="submit" className="btn btn-success col-md-4 offset-md-4 mt-4">Actualizar</button>
+                  <button type="button" onClick={this.changeSpe} className="btn btn-warning col-md-4 offset-md-4 mt-4">Añadir especialidad</button>
+                  
+                  {this.selectSpe()}
+                  <button type="submit" className="btn btn-success col-md-4 offset-md-4 mt-2">Actualizar</button>
+                  
+                  
                 </div>
               </form >
             </div>

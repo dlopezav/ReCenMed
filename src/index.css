@@ -5,8 +5,9 @@ body {
   src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: -webkit-linear-gradient(to right, #627fff, #a72cb8);
-  background: linear-gradient(to right, #627fff, #a72cb8);
+
+  background: -webkit-linear-gradient(to right, #4275ff, #16acc7);
+  background: linear-gradient(to right, #4f7dfd, #16acc7);
   font-family: 'Lato', sans-serif; 
 }
 

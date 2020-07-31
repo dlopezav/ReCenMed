@@ -131,6 +131,7 @@ app.post('/getUnities', (req, res) => {
   }); 
 });
 
+
 app.post('/getSpecialities', (req, res) => {
   req.getConnection((err, conn) => {
     conn.query('select * from specialities where spc_hos_id = ?',[req.body.id], (err, rows) => {
@@ -146,8 +147,16 @@ app.post('/getSpecialities', (req, res) => {
 
 app.post('/actualizarDatos', (req, res) => {
   data = Object.values(req.body)
+  sql = "update unities set uni_capacity_total = ? , uni_capacity_assigned = ? where (uni_hos_id = ?) and (uni_name = ?);     update specialities set spc_doctor = ? where (spc_hos_id = ?) and (spc_name = ?);";
+  sql2 = "update unities set uni_capacity_total = ? , uni_capacity_assigned = ? where (uni_hos_id = ?) and (uni_name = ?);     update specialities set spc_doctor = ? where (spc_hos_id = ?) and (spc_name = ?); insert into specialities (spc_hos_id, spc_name, spc_doctor) values ?"
   req.getConnection((err, conn) => {
-    conn.query('update unities set uni_capacity_total = ? , uni_capacity_assigned = ? where (uni_hos_id = ?) and (uni_name = ?);     update specialities set spc_doctor = ? where (spc_hos_id = ?) and (spc_name = ?)',data, (err, rows) => {
+    var sentence = "";
+    if(req.body.spe != null){
+      sentence = sql2;
+    }else{
+      sentence = sql;
+    }
+    conn.query(sentence, data, (err, rows) => {
       if(err){
         res.send(false)
         console.log(err)

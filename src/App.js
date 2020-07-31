@@ -123,7 +123,8 @@ class App extends Component {
   changeToLogin = () => {
     if(this.state.inLogin){
       this.setState({
-        inLogin: false
+        inLogin: false,
+        inRegistro: false
       })
     }
     else{
@@ -133,7 +134,8 @@ class App extends Component {
     }
   }
 
-  datosActualizar = (spc, uni, spc_doctor, uni_total, uni_assigned) => {
+  datosActualizar = (spc, uni, spc_doctor, uni_total, uni_assigned, spe) => {
+    
     const myObj = {
       "uni_total": uni_total,
       "uni_assigned": uni_assigned,
@@ -141,7 +143,8 @@ class App extends Component {
       "unidad": uni,
       "doctores": spc_doctor,
       "hos_id2": this.state.hospital.hos_id,
-      "especialidad": spc
+      "especialidad": spc,
+      "spe": spe
     }
     // console.log()
     console.log(myObj)
@@ -193,7 +196,8 @@ class App extends Component {
             datosRegistro={this.datosRegistro}
             datosActualizar={this.datosActualizar}
           />
-          <div className="collapse">
+          <div className="card mx-auto" id="mapibiris">
+            <h2>Mapa de centros médicos.</h2>
             <Mapa 
             getLocation = {this.getLocation}
             markers = {hospitals}/>
@@ -209,7 +213,7 @@ class App extends Component {
         />
 
         <Preferencias />
-        <button className="btn btn-info mt-2" type="button" data-toggle="collapse" data-target="#panel" aria-expanded="false" aria-controls="panel" id="Buscar">Buscar Recomendación</button>
+        <button className="btn btn-info mt-2" type="button" data-toggle="collapse" data-target="#panel" aria-expanded="false" aria-controls="panel" id="Buscar">RECOMENDACIONES</button>
        
         <div className="card mx-auto mt-2">
           <Mapa 

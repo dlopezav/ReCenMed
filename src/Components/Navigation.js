@@ -10,7 +10,7 @@ class Navigation extends Component {
     if(this.props.inLogin){
       return(
         <button className="btn btn-danger" onClick={this.activarLogin}>
-            Salir a mapa
+            Log Out
         </button>
       )
     }

@@ -41,6 +41,11 @@ class Mapa extends Component{
       navigator.geolocation.getCurrentPosition(
           (position) => {
               const { latitude, longitude } = position.coords;
+              if(latitude){
+                this.props.getLocation(latitude, longitude)
+              }else{
+                this.props.getLocation(this.state.lat, this.state.lng)
+              }
               this.setState({
                 lat: latitude,
                 lng: longitude,
@@ -55,7 +60,7 @@ class Mapa extends Component{
 
           }
       )
-      this.props.getLocation(this.state.lat, this.state.lng)
+      
   }
 
   render(){
@@ -66,6 +71,8 @@ class Mapa extends Component{
                   attribution='&amp;copy <a href="http://osm.org/copyright%22%3EOpenStreetMap</a> contributors'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
+                {this.mostrarMarkers()}
+                  
                 <Marker
                   position ={[this.state.lat, this.state.lng]}
                   icon = {iconPerson}
@@ -75,8 +82,6 @@ class Mapa extends Component{
                       {this.state.descripcion}
                     </Popup>
                 </Marker>
-                {this.mostrarMarkers()}
-                  
               </Map>
           </div>
         );

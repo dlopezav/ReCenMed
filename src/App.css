@@ -56,11 +56,19 @@
 .App #Buscar{
   font-size: 1.2em;
   min-width: 100%;
-  background: -webkit-linear-gradient(to right, #cab2f1, #6315f3);
-  background: linear-gradient(to right, #cab2f1, #6315f3);
-  /* color: black; */ 
+  background-color: #e2cfff;
+  color: white;
+  background: -webkit-linear-gradient(to right, #ec6d94, #9206bd);
+  background: linear-gradient(to right, #ec6d94, #8906bd);}
+
+.App #mapibiris {
+  margin-top: 280px;
+  margin-bottom: 250px;
 }
 
+.App .inputslog {
+  margin-top: 0px;
+}
 .App .input-group-prepend label{
   margin-right: 10px;
 }
