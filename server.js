@@ -170,6 +170,6 @@ app.get('/getHospitals', (req, res) => {
 
 app.use(express.static(__dirname + "/public"));
 
-app.listen(3000, () => {
+app.listen(app.get("port"), () => {
     console.log("server started on port 3000");
 });
