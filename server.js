@@ -21,14 +21,14 @@ const router = express.Router();
 
 
 // app.use(morgan('dev'));
-app.use(conecctionDatabase(mysql, {
-    host: '25.92.99.155',
-    user: 'root',
-    password: 'hack2020',
-    port: 3306,
-    database: 'recenmeddb',
-    multipleStatements: true
-}, 'single'));
+// app.use(conecctionDatabase(mysql, {
+//     host: '25.92.99.155',
+//     user: 'root',
+//     password: 'hack2020',
+//     port: 3306,
+//     database: 'recenmeddb',
+//     multipleStatements: true
+// }, 'single'));
 
 
 
