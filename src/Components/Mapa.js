@@ -9,8 +9,8 @@ class Mapa extends Component{
   constructor(props){
     super(props);
     this.state = {
-      lat: 0,
-      lng: 0
+      lat: 4.629572,
+      lng: -74.135643
     }
     this.FindMe();
   }
@@ -41,19 +41,21 @@ class Mapa extends Component{
       navigator.geolocation.getCurrentPosition(
           (position) => {
               const { latitude, longitude } = position.coords;
-              this.props.getLocation(latitude, longitude)
               this.setState({
-                  lat: latitude,
-                  lng: longitude,
-                  descripcion: "Mi casa"
+                lat: latitude,
+                lng: longitude,
+                descripcion: "Mi casa"
               })
+              
               console.log(position);
+              console.log(this.state.lat, this.state.lng)
           },
           (error) => {
               alert("Ha ocurrido un error al obtener la ubicación.\nPrueba a usar el buscador.");
 
           }
       )
+      this.props.getLocation(this.state.lat, this.state.lng)
   }
 
   render(){

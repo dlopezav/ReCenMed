@@ -81,18 +81,38 @@ app.post('/confirmLogin', (req, res) => {
   req.getConnection((err, conn) => {
     conn.query('select * from hospitals where hos_email like ?',[req.body.email], (err, rows) => {
       if(err){
-        console.log(err.json())
+        console.log({confirm: false})
       }
       else{
         myHospital = rows[0]
-        if(rows[0].hos_password == req.body.password){
-          myHospital.confirm = true;
+        if(myHospital){
+          if(rows[0].hos_password == req.body.password){
+            myHospital.confirm = true;
+          }
         }
         else{
-          myHospital.confirm = false;
+          myHospital = {confirm: false}
         }
         // console.log(myHospital)
         res.send(myHospital)
+      }
+    })
+  });
+});
+
+
+app.post('/confirmRegister', (req, res) => {
+  // console.log(req.body)
+  data = Object.values(req.body)
+  console.log(data)
+  req.getConnection((err, conn) => {
+    conn.query('insert into hospitals (hos_name, hos_email, hos_password, hos_address, hos_lat, hos_lng) values ?',[[data]], (err, rows) => {
+      if(err){
+        console.log(err)
+        res.send(false)
+      }
+      else{
+        res.send(true)
       }
     })
   });
@@ -115,7 +135,7 @@ app.post('/getSpecialities', (req, res) => {
   req.getConnection((err, conn) => {
     conn.query('select * from specialities where spc_hos_id = ?',[req.body.id], (err, rows) => {
       if(err){
-        console.log(err.json());
+        console.log(err);
       }
       else{
         res.send(rows);
@@ -124,7 +144,20 @@ app.post('/getSpecialities', (req, res) => {
   });
 });
 
-
+app.post('/actualizarDatos', (req, res) => {
+  data = Object.values(req.body)
+  req.getConnection((err, conn) => {
+    conn.query('update unities set uni_capacity_total = ? , uni_capacity_assigned = ? where (uni_hos_id = ?) and (uni_name = ?);     update specialities set spc_doctor = ? where (spc_hos_id = ?) and (spc_name = ?)',data, (err, rows) => {
+      if(err){
+        res.send(false)
+        console.log(err)
+      }
+      else{
+        res.send(true);
+      }
+    })
+  });
+});
 
 app.use(express.static(__dirname + "/public"));
 
