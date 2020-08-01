@@ -20,9 +20,42 @@ class App extends Component {
       latitud: null,
       longitud: null,
       inLogin: false,
+      seleEspecialidad: null,
+      seleUnidad: null,
+      selePersona: null,
     }
   }
 
+  filtrar = (speciality, necesity, age, eps) => {
+    const spe = ['Alergología', 'Anestesiología', 'Cardiología', 'Gastroenterología',
+    'Endocrinología', 'Geriatría', 'Hepatología', 'Hematología',
+    'Infectología', 'Medicina del deporte', 'Medicina del trabajo',
+    'Medicina intensiva', 'Medicina interna', 'Nefrología', 'Neumología',
+    'Neurología', 'Oncología médica', 'Pediatría', 'Psiquiatría',
+    'Reumatología', 'Toxicología', 'Covid'];
+
+    //const unities
+
+    var hospitales_filtrados = [];
+    this.state.hospitals.forEach((hospital) =>{
+        spe.forEach((s) =>{
+            if(speciality == s){
+              this.state.unities.forEach((unity) => { 
+                if(unity.uni_hos_id == hospital.hos_id){
+                  var split = unity.uni_name.split("_");
+                  if(age == split[1] && necesity == split[0]){
+                   if(unity.uni_capacity_total - unity.uni_capacity_assigned > 0){
+                      hospitales_filtrados.push(hospital);
+                   };
+                  };
+                };
+              });
+            }
+        });
+    });
+    this.setState({hospitals: hospitales_filtrados});
+    //return hospitales_filtrados;
+  }
 
   getLocation = (lat, long) => {
     this.setState({
@@ -167,13 +200,21 @@ class App extends Component {
       });
   }
 
+  getPreferencias  = (a, b, c) => {
+    this.setState({
+        seleEspecialidad: a,
+        seleUnidad: b,
+        selePersona: c,
+
+      }
+    )
+  }
   componentWillMount() {
     request
       .get('/getHospitals')
       .end((err, res) => {
-        // console.log(JSON.parse(res.text));
-        // const hospitals = JSON.parse(res.text);
-        console.log(res);
+        console.log(JSON.parse(res.text));
+        const hospitals = JSON.parse(res.text);
         this.setState({
           hospitals: hospitals
         });
@@ -213,7 +254,9 @@ class App extends Component {
           changeToLogin={this.changeToLogin}
         />
 
-        <Preferencias />
+        <Preferencias
+          getPreferencias = {this.getPreferencias()}
+         />
         <button className="btn btn-info mt-2" type="button" data-toggle="collapse" data-target="#panel" aria-expanded="false" aria-controls="panel" id="Buscar">ENCONTRAR RECOMENDACIONES</button>
         <div className="card mx-auto mt-2">
           <Mapa 

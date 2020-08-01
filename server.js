@@ -1,8 +1,7 @@
 const express = require('express');
 const path = require('path');
 // const morgan = require('morgan');
-const { Pool } = require('pg');
-
+const mysql = require('mysql');
 const conecctionDatabase = require('express-myconnection');
 const app = express();
 const bodyParser = require('body-parser');
@@ -21,17 +20,17 @@ const router = express.Router();
 //middelwares
 
 
+//app.use(morgan('dev'));
+app.use(conecctionDatabase(mysql, {
+    host: '25.92.99.155',
+    user: 'root',
+    password: 'hack2020',
+    port: 3306,
+    database: 'recenmeddb',
+    multipleStatements: true
+}, 'single'));
 
-const pool = new Pool({
-  user: 'vhazgczzjufefa',
-  host: 'ec2-35-175-155-248.compute-1.amazonaws.com',
-  database: 'd66bkjhd8r9330',
-  password: '535d1a840b0d09297ca3baad0f1fa67a86c102913a5b0e0fb6d2885a02908f4a',
-  port: 5432,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+
 
 
 app.use(express.urlencoded({ 
@@ -39,27 +38,40 @@ app.use(express.urlencoded({
     }
 ));
 app.use(bodyParser.json());
-app.use(express.json());
 
 
-app.get('/getHospitals', async (req, res) => {
-  try {
-    const client = await pool.connect();
-    const result = await client.query('select hos_name, hos_address, hos_lat, hos_lng, hos_email, hos_date from hospitals')
-    const results = { 'results': (result) ? result.rows : null};
-    // console.log(results);
-    res.send(results.results);
-    client.release();
-  } catch (err) {
-    console.error(err);
-    res.send("Error " + err);
-  }
-})
+
+
+app.get('/getUsers', (req, res) => {
+    req.getConnection((err, conn) => {
+      conn.query('select * from users', (err, rows) => {
+        if(err){
+          console.log(err.json())
+        }
+        else{
+          res.json(rows);
+        }
+      })
+    });
+});
+
+app.get('/getHospitals', (req, res) => {
+  req.getConnection((err, conn) => {
+    conn.query('select hos_name, hos_address, hos_lat, hos_lng, hos_email, hos_date from hospitals', (err, rows) => {
+      if(err){
+        console.log(err.json())
+      }
+      else{
+        res.json(rows);
+      }
+    })
+  });
+});
 
 
 app.post('/confirmLogin', (req, res) => {
-  req.getConnection((err, pool) => {
-    pool.query('select * from hospitals where hos_email like ?',[req.body.email], (err, rows) => {
+  req.getConnection((err, conn) => {
+    conn.query('select * from hospitals where hos_email like ?',[req.body.email], (err, rows) => {
       if(err){
         console.log({confirm: false})
       }
