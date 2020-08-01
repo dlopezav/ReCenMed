@@ -171,8 +171,9 @@ class App extends Component {
     request
       .get('/getHospitals')
       .end((err, res) => {
-        console.log(JSON.parse(res.text));
-        const hospitals = JSON.parse(res.text);
+        // console.log(JSON.parse(res.text));
+        // const hospitals = JSON.parse(res.text);
+        console.log(res);
         this.setState({
           hospitals: hospitals
         });

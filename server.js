@@ -21,15 +21,6 @@ const router = express.Router();
 //middelwares
 
 
-// app.use(morgan('dev'));
-// app.use(conecctionDatabase(mysql, {
-//     host: 'ec2-35-175-155-248.compute-1.amazonaws.com',
-//     user: 'vhazgczzjufefa',
-//     password: '535d1a840b0d09297ca3baad0f1fa67a86c102913a5b0e0fb6d2885a02908f4a',
-//     port: 5432,
-//     database: 'd66bkjhd8r9330',
-//     multipleStatements: true
-// }, 'single'));
 
 const pool = new Pool({
   user: 'vhazgczzjufefa',
@@ -39,7 +30,7 @@ const pool = new Pool({
   port: 5432,
   ssl: {
     rejectUnauthorized: false
- }
+  }
 });
 
 
@@ -54,15 +45,17 @@ app.use(express.json());
 app.get('/getHospitals', async (req, res) => {
   try {
     const client = await pool.connect();
-    const result = await client.queryquery('select hos_name, hos_address, hos_lat, hos_lng, hos_email, hos_date from hospitals')
+    const result = await client.query('select hos_name, hos_address, hos_lat, hos_lng, hos_email, hos_date from hospitals')
     const results = { 'results': (result) ? result.rows : null};
-    res.render('pages/hospitals', results );
+    // console.log(results);
+    res.send(results.results);
     client.release();
   } catch (err) {
     console.error(err);
     res.send("Error " + err);
   }
 })
+
 
 app.post('/confirmLogin', (req, res) => {
   req.getConnection((err, pool) => {
