@@ -255,7 +255,6 @@ class App extends Component {
         />
 
         <Preferencias
-          getPreferencias = {this.getPreferencias()}
          />
         <button className="btn btn-info mt-2" type="button" data-toggle="collapse" data-target="#panel" aria-expanded="false" aria-controls="panel" id="Buscar">ENCONTRAR RECOMENDACIONES</button>
         <div className="card mx-auto mt-2">

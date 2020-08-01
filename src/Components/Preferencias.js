@@ -25,18 +25,18 @@ class Preferencias extends Component {
     'Neurología', 'Oncología médica', 'Pediatría', 'Psiquiatría',
     'Reumatología', 'Toxicología', 'Covid'];
 
-    return(
-      <select>
-        spe.map((spe, id) => (
-          <option
-            key={id}
-            value={spe}>
-            {spe}
-          </option>
-        ))
-      </select>
+    // return(
+    //   // <select>
+    //   //   spe.map((spe, id) => (
+    //   //     <option
+    //   //       key={id}
+    //   //       value={spe}>
+    //   //       {spe}
+    //   //     </option>
+    //   //   ))
+    //   // </select>
     
-    );
+    // );
   }
   renderEdad = () =>{
     const age = [
@@ -50,18 +50,18 @@ class Preferencias extends Component {
       'general_adulto',
       'general_neonato']
 
-    return(
-      <select>
-        age.map((uti, id) => (
-          <option
-            key={id}
-            value={uti}>
-            {capitalize(uti.split("_")[1])}
-          </option>
-        ))
-      </select>
+    // return(
+    //   // <select>
+    //   //   age.map((uti, id) => (
+    //   //     <option
+    //   //       key={id}
+    //   //       value={uti}>
+    //   //       {capitalize(uti.split("_")[1])}
+    //   //     </option>
+    //   //   ))
+    //   // </select>
     
-    );
+    // );
   }
   renderUnidad = () =>{
     const age = [
@@ -74,18 +74,18 @@ class Preferencias extends Component {
       'general_niño',
       'general_adulto',
       'general_neonato']
-    return(
-      <select>
-        age.map((uti, id) => (
-          <option
-            key={id}
-            value={uti}>
-            {capitalize(uti.split("_")[0])}
-          </option>
-        ))
-      </select>
+    // return(
+    //   // <select>
+    //   //   age.map((uti, id) => (
+    //   //     <option
+    //   //       key={id}
+    //   //       value={uti}>
+    //   //       {capitalize(uti.split("_")[0])}
+    //   //     </option>
+    //   //   ))
+    //   // </select>
     
-    );
+    // );
   }
   render() {
     return (
@@ -121,12 +121,12 @@ class Preferencias extends Component {
             <div className="form-group col-md-12">
               <div className=" input-group-prepend">
                 {/* <label for ="selectEspecialidad" className="input-group-text col-12 col-md-2">La personas es:</label>                           */}
-                {/* <select ref={this.age} name="selectEspecialidad" id="selectEspecialidad" className="offset-md-2 form-control col-12 col-md-8">
+                 <select ref={this.age} name="selectEspecialidad" id="selectEspecialidad" className="offset-md-2 form-control col-12 col-md-8">
                   <option disabled selected>La persona a ser atendida es...</option>
                   <option value="neonato">Neonato</option>
                   <option value="nino">Niño</option>
                   <option value="adulto">Adulto</option>
-                </select> */}
+                </select> 
                 {this.renderEdad()}
               </div>
             </div>
